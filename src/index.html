@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<title>Analisador Léxico</title>
+	<meta charset="utf-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/2ad8f0bb00.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="../style/index.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="../js/tabela.js"></script>
+	<script src="../js/input.js"></script>
+	<script src="../js/init.js"></script>
+
+</head>
+
+<body>
+	<header class="navbar bg-secondary">
+		<span class="title">Analisador Léxico</span>
+		<div class="form-inline my-2 my-lg-0">
+			<input id="input_palavras" class="form-control mr-sm-2" type="search" placeholder="Adicionar Palavra">
+			<button id="insere_palavras" class="btn btn-dark my-2 my-sm-0"><svg xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+					<path fill-rule="evenodd"
+						d="M7.75 2a.75.75 0 01.75.75V7h4.25a.75.75 0 110 1.5H8.5v4.25a.75.75 0 11-1.5 0V8.5H2.75a.75.75 0 010-1.5H7V2.75A.75.75 0 017.75 2z">
+					</path>
+				</svg></button>
+		</div>
+	</header>
+	<div class="navbar custom-nav">
+		<div class="form-inline my-2 my-lg-0 custom-form bg-secondary">
+			<input id="buscar_palavras" class="form-control mr-sm-2" type="search" placeholder="Analisar Palavra">
+		</div>
+	</div>
+
+
+
+	<div class="container">
+		<div style="display: flex;">
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Palavras Cadastradas
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<div id="input-field">
+					</div>
+					<div class="direction-btn">
+						<button id="limpar_html" class="btn btn-danger btn-custom-clean"><svg class="svg-margin"
+								xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="18" height="18">
+								<path fill-rule="evenodd"
+									d="M1.5 8a6.5 6.5 0 0110.535-5.096l-9.131 9.131A6.472 6.472 0 011.5 8zm2.465 5.096a6.5 6.5 0 009.131-9.131l-9.131 9.131zM8 0a8 8 0 100 16A8 8 0 008 0z">
+								</path>
+							</svg>Limpar</button>
+					</div>
+				</div>
+			</div>
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Palavras Encontradas
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<div id="palavras_encontradas"></div>
+				</div>
+			</div>
+		</div>
+		<div class="validateWordsContainer">
+			<div class="right">
+				<div class="card text-center">
+					<div class="card-body">
+						<h5 class="card-title">Tabela</h5>
+						<div class="tableContainer">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th class="col">&delta;</th>
+									</tr>
+								</thead>
+								<tbody id="tabela_tbody"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$("#limpar_html").click(function () {
+				$('#tabela_tbody').html('');
+				$('#palavras_encontradas').html('');
+				$('#input-field').html('');
+				Palavras = [];
+				IteracaoDosEstados = [0];
+				EstadoGlobal = 0;
+				Estados = [[]];
+				Tabela = [];
+			});
+		</script>
+</body>
+
+</html>
