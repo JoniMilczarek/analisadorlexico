@@ -1,4 +1,4 @@
-const montaTabela = itemTab => {
+const createTable = itemTab => {
 	var tabela = $('#tabela_tbody');
 	tabela.html('');
 	for(var i=0; i<itemTab.length; i++){
@@ -31,58 +31,77 @@ const montaTabela = itemTab => {
 	}
 };
 
-const validaPalavra = () => {
-	var palavras = ($('#buscar_palavras').val()).toLowerCase();
+const validateWord = () => {
+	var words = ($('#search_word').val()).toLowerCase();
 	
-	if(palavras.length == 0){
-		$('#tabela_tbody tr').removeClass('focus-linha');
-		$('#tabela_tbody td').removeClass('focus-coluna');
+	if(words.length == 0){
+		clearHighlight();
 	}
-	var estado = 0;
-	var erroEstado = false;
+	var state = 0;
+	var stateError = false;
 	
-	for(var i=0; i<palavras.length; i++) {
+	for(var i=0; i<words.length; i++) {
 		var exprRegular = /([a-z_])/;
-		if(exprRegular.test(palavras[i]) && erroEstado == false){
-			highlightTabela(estado, palavras[i], Tabela[estado][palavras[i]]);
+		if(exprRegular.test(words[i]) && stateError == false){
+			createHighlight(state, words[i], table[state][words[i]]);
 			
-			if(Tabela[estado][palavras[i]] != '-'){ // se o estado não for de erro, ele aceita
-				estado = Tabela[estado][palavras[i]];
-			} else { // Rejeita caso o estado seja de erro
-				erroEstado = true;
+			if(table[state][words[i]] != '-'){ // se o state não for de erro, ele aceita
+				state = table[state][words[i]];
+			} else { // Rejeita caso o state seja de erro
+				stateError = true;
 			}
-		} else if(palavras[i] == ' '){
+		} else if(words[i] == ' '){
 			var plvrEncontrada = `<span class='right'><i class="far fa-check-circle"></i></span>`;
 			var plvrNaoEncontrada = `<span class='right'><i class="fas fa-minus-circle"></i></span>`;
 			
-			if (erroEstado == false) {
-				if (Tabela[estado]['final']) { //Se o estado for final da Encontrado, se não da Estado não final
-					$('#palavras_encontradas').append(`<a class="dropdown-item" href="#">${palavras}</a>`);
-					alert("palavra encontrada");
+			if (stateError == false) {
+				if (table[state]['final']) {
+					$('#searched_words').append(`<a class="dropdown-item" href="#">${words}</a>`);
+					$('#modal').find('.modal-title').html('Palavra Encontrada!');
+					$('#modal').find('.modal-body').html('<p>Sua palavra foi validada e encontrada entre as palavras cadastradas.</p>');
+					$('#modal').modal('show');
 				} else {
-					alert("palavra não final");
+					$('#modal').find('.modal-title').html('Palavra Incompleta!');
+					$('#modal').find('.modal-body').html('<p>Quase... Você quase acertou uma palavra, ela ficou imcompleta, tente novamente.</p>');
+					$('#modal').modal('show');
 				}
 			} else {
-				alert("palavra não encontrada");
+				$('#modal').find('.modal-title').html('Palavra Inesistente!');
+				$('#modal').find('.modal-body').html('<p>Essa palavra ainda não foi cadastrada! Apenas palavras cadastradas podem ser analisadas lexicamente.</p>');
+				$('#modal').modal('show');
 			}
-			$('#tabela_tbody tr').removeClass('focus-linha');
-			$('#tabela_tbody td').removeClass('focus-coluna');
-			$('#buscar_palavras').val('');
-		} else if(erroEstado == false) {
-			alert("Apenas caracteres válidos");
+			clearHighlight();
+			$('#search_word').val('');
+		} else if(stateError == false) {
+			$('#modal').find('.modal-title').html('Caracter inválido!');
+			$('#modal').find('.modal-body').html('<p>Digite apenas letras de A até Z para validar lexicamente sua palavras.</p>');
+			$('#modal').modal('show');
+			clearHighlight();
+			$('#search_word').val('');
 		}
 	}
 };
 
-const highlightTabela = (estado, palavra, erroEstado) => {
-	$('#tabela_tbody tr').removeClass('focus-linha');
-	$('#tabela_tbody td').removeClass('focus-coluna');
-	$('#tabela_tbody tr').removeClass('focus-linha-erro');
-	$('#tabela_tbody td').removeClass('focus-coluna-erro');
-	$('#tabela_tbody .linha_' + estado).addClass('focus-linha');
-	$('#tabela_tbody .coluna_' + palavra).addClass('focus-coluna');
-	if(erroEstado == '-'){
-		$('#tabela_tbody .linha_' + estado).addClass('focus-coluna-erro');
-		$('#tabela_tbody .coluna_' + palavra).addClass('focus-coluna-erro');
+const clearHighlight = () => {
+	document.querySelectorAll('tr').forEach((line)=>{
+		line.classList.remove('focus-linha');
+		line.classList.remove('focus-coluna-erro')
+	});
+
+	document.querySelectorAll('td').forEach((column) => {	
+		column.classList.remove('focus-coluna');
+		column.classList.remove('focus-coluna-erro');
+	});
+}
+
+const createHighlight = (state, word, error) => {
+	clearHighlight();
+	if(error == '-'){
+		$('#tabela_tbody .linha_' + state).addClass('focus-linha-erro');
+		$('#tabela_tbody .linha_' + state).addClass('focus-coluna-erro');
+		$('#tabela_tbody .coluna_' + word).addClass('focus-coluna-erro');
+	} else {
+		$('#tabela_tbody .linha_' + state).addClass('focus-linha');
+		$('#tabela_tbody .coluna_' + word).addClass('focus-coluna');
 	}
 };
