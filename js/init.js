@@ -6,7 +6,7 @@ var wordArray = [];
 var globalIteration = [0];
 var globalState = 0;
 var state = [[]];
-var table 	= [];
+var table = [];
 
 $(document).ready(function() {
     for(i=97; i<123; i++){

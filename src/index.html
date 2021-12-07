@@ -16,8 +16,7 @@
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
 	<script src="../js/init.js"></script>
-	<script src="../js/tabela.js"></script>
-	<script src="../js/input.js"></script>
+	<script src="../js/scripts.js"></script>
 
 </head>
 
@@ -53,7 +52,7 @@
 					<div id="input-field">
 					</div>
 					<div class="direction-btn">
-						<button id="limpar_html" class="btn btn-danger btn-custom-clean"><svg class="svg-margin"
+						<button id="aasdasd" class="btn btn-danger btn-custom-clean"><svg class="svg-margin"
 								xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="18" height="18">
 								<path fill-rule="evenodd"
 									d="M1.5 8a6.5 6.5 0 0110.535-5.096l-9.131 9.131A6.472 6.472 0 011.5 8zm2.465 5.096a6.5 6.5 0 009.131-9.131l-9.131 9.131zM8 0a8 8 0 100 16A8 8 0 008 0z">
@@ -110,15 +109,15 @@
 			  </div>
 		</div>
 		<script>
-			$("#limpar_html").click(function () {
+			$("#clearAll").click(function () {
 				$('#tabela_tbody').html('');
 				$('#searched_words').html('');
 				$('#input-field').html('');
-				Palavras = [];
-				IteracaoDosEstados = [0];
-				EstadoGlobal = 0;
-				Estados = [[]];
-				Tabela = [];
+				wordArray = [];
+				globalIteration = [0];
+				globalState = 0;
+				state = [[]];
+				table = [];
 			});
 		</script>
 </body>
